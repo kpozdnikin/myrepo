@@ -1,0 +1,35 @@
+{
+  "name": "myrepo",
+  "version": "0.0.1",
+  "homepage": "https://github.com/kpozdnikin/myrepo",
+  "authors": [
+    "kpozdnikin <kpozdnikin@gmail.com>"
+  ],
+  "description": "myrepo project",
+  "main": "bower.json",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "myrepo"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.4.*",
+    "angular-ui-router": "*",
+    "angular-cookies": "*"
+  },
+  "devDependencies": {
+    "angular-ui-utils": "*"
+  },
+  "resolutions": {
+    "angular": "1.4.*"
+  }
+}
