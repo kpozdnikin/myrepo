@@ -4,7 +4,8 @@ Front:
  • Gulp;
  • AngularJS;
  • SASS (Bootstrap);
-Back:
+<p>Back:
  • PHP 5.4;
  • Composer;
  • Silex;
+</p>
