@@ -1,0 +1,14 @@
+cache/
+.idea/*
+*.tmp
+*.log
+nbproject/*
+nodejs/node_modules/*
+nodejs/.idea/*
+nodejs/config/config.json
+nodejs/*.log
+node_modules/*
+bower_components/*
+css/app.min.css
+js/app.min.js
+vendor/*

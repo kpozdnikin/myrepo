@@ -1,0 +1,25 @@
+{
+  "name": "myrepo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "*",
+    "gulp-css-rebase-urls": "*",
+    "gulp-debug": "^2.1.2",
+    "gulp-linker": "^0.1.7",
+    "gulp-minify-css": "*",
+    "gulp-rename": "*",
+    "gulp-uglify": "*",
+    "ini": "*",
+    "karma": "*",
+    "karma-chrome-launcher": "*",
+    "karma-firefox-launcher": "*",
+    "karma-jasmine": "*",
+    "load-grunt-config": "*",
+    "merge-stream": "*"
+  }
+}

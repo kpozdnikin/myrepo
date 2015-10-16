@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="container">
+        <!--
+        Доступные фильтры:
+        все твиты
+        только с изображениями
+        только с видео
+        только с ссылками
+        все с наличием меда контента (ссылками, видео и изображениями)
+        -->
+        <div>
+            <label class="radio-inline">
+                <input type="radio"
+                       value="all"
+                       data-ng-change="ChangeFilter()"
+                       data-ng-model="val"
+                       checked> Все твиты
+            </label>
+            <label class="radio-inline">
+                <input type="radio"
+                       value="img"
+                       data-ng-change="ChangeFilter()"
+                       data-ng-model="val"> Только с изображением
+            </label>
+            <label class="radio-inline">
+                <input type="radio"
+                       value="video"
+                       data-ng-change="ChangeFilter()"
+                       data-ng-model="val"> Только с видео
+            </label>
+            <label class="radio-inline">
+                <input type="radio"
+                       value="url"
+                       data-ng-change="ChangeFilter()"
+                       data-ng-model="val"> Только со ссылками
+            </label>
+            <label class="radio-inline">
+                <input type="radio"
+                       value="media"
+                       data-ng-change="ChangeFilter()"
+                       data-ng-model="val"> Все с наличием медиа
+            </label>
+        </div>
+        <p></p>
+        <div class="col-md-3"
+             data-ng-repeat="tweet in filter">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title"><a href="{{ tweet.id }}">{{ tweet.name }}</a></h4>
+                    <h6 class="card-subtitle text-muted">This is a little joke</h6>
+                </div>
+                <img class="col-md-6" data-ng-if="tweet.img" src="{{ tweet.img }}" alt="Card image">
+                <div class="card-block">
+                    <p class="card-text">{{ tweet.text }}</p>
+                    <p><a href="{{ tweet.url }}" class="card-link">{{ tweet.url }}</a></p>
+                    <p><a href="{{ tweet.video }}" data-ng-if="tweet.video" class="card-link">Video</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

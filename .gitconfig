@@ -1,0 +1,7 @@
+[core]
+    excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
+    # Treat spaces before tabs, lines that are indented with 4 or more spaces, and all kinds of trailing whitespace as an error
+    whitespace = space-before-tab,indent-with-non-tab,trailing-space
+    # remove check filemode
+    filemode = false

@@ -1,124 +1,95 @@
-var minifyCss = require('gulp-minify-css'), // Минификация CSS;
-    uglify = require('gulp-uglify'), // Минификация JS
-    concat = require('gulp-concat'), // Склейка файлов
-    linker = require('gulp-linker'), // Создание ссылок на файлы
+var minifyCss = require('gulp-minify-css'), // РњРёРЅРёС„РёРєР°С†РёСЏ CSS;
+    uglify = require('gulp-uglify'), // РњРёРЅРёС„РёРєР°С†РёСЏ JS
+    concat = require('gulp-concat'), // РЎРєР»РµР№РєР° С„Р°Р№Р»РѕРІ
+    linker = require('gulp-linker'), // РЎРѕР·РґР°РЅРёРµ СЃСЃС‹Р»РѕРє РЅР° С„Р°Р№Р»С‹
     merge = require('merge-stream'),
     rename = require('gulp-rename'),
-    angularTemplateCache = require('gulp-angular-templatecache'), //кэширование Angular шаблонов
     cssRebaseUrls = require('gulp-css-rebase-urls'),
-    gulp = require('gulp');
-var scriptsFilesList = [
+    gulp = require('gulp'),
+    debug = require('gulp-debug');
 
+var scriptsFilesList = [
+    //jquery
+    'bower_components/jquery/dist/jquery.min.js',
+    //bootstrap
+    'bower_components/bootstrap/dist/js/bootstrap.min.js',
+    //angular
+    'bower_components/angular/angular.min.js',
+    'bower_components/angular-animate/angular-animate.min.js',
+    'bower_components/angular-route/angular-route.min.js',
+    //my files
+    'js/app.js',
+    'js/**/*.controller.js',
+    'js/**/*.service.js'
 ];
 var ccsFilesList = [
-
+    'bower_components/bootstrap/dist/css/bootstrap.min.css'
 ];
-// Собираем JS
+// РЎРѕР±РёСЂР°РµРј JS
 function jsToMin() {
     return gulp.src(scriptsFilesList)
-        //
-        .pipe(uglify({mangle: false})) // Сживаем JS файлы
-        .pipe(concat('app.min.js')) // Собираем все JS, кроме тех которые находятся в ./assets/js/vendor/**
-
-        .pipe(gulp.dest('./public/js/'));
+        .pipe(uglify({mangle: false})) // РЎР¶РёРјР°РµРј JS С„Р°Р№Р»С‹
+        .pipe(concat('app.min.js')) // РЎРѕР±РёСЂР°РµРј РІСЃРµ JS, РєСЂРѕРјРµ С‚РµС… РєРѕС‚РѕСЂС‹Рµ РЅР°С…РѕРґСЏС‚СЃСЏ РІ ./assets/js/vendor/**
+        .pipe(gulp.dest('./js/'))
+        .pipe(debug({title: 'unicorn:'}));
 }
 
 gulp.task('jsToMin', function () {
     return jsToMin();
 });
 
-// Собираем CSS
+// РЎРѕР±РёСЂР°РµРј CSS
 function cssToMin() {
     return gulp.src(ccsFilesList)
-        .pipe(cssRebaseUrls({root: '/public/css'}))
-        .pipe(concat('app.min.css')) // Собираем все css файл в один
+        .pipe(cssRebaseUrls({root: '/css'}))
+        .pipe(concat('app.min.css')) // РЎРѕР±РёСЂР°РµРј РІСЃРµ css С„Р°Р№Р» РІ РѕРґРёРЅ
         .pipe(minifyCss())
-        .pipe(gulp.dest('./public/css/')); // записываем css;
+        .pipe(gulp.dest('./css/')) // Р·Р°РїРёСЃС‹РІР°РµРј css;
+        .pipe(debug({title: 'unicorn:'}));
 }
 gulp.task('cssToMin', function () {
     return cssToMin();
 });
 
-// Генерируем ссылки на js/css Файлы
-function createTplForDevelopment() {
+// Р“РµРЅРµСЂРёСЂСѓРµРј СЃСЃС‹Р»РєРё РЅР° js/css Р¤Р°Р№Р»С‹
+/*function createTplForDevelopment() {
+    var Dir = '';
     // Read templates
-    return gulp.src('develop/main.tpl')
+    return gulp.src('/index.html')
         // Link the JavaScript
         .pipe(linker({
             scripts: scriptsFilesList,
             startTag: '<!--SCRIPTS-->',
             endTag: '<!--SCRIPTS END-->',
-            fileTmpl: '<script src="/\%s?v={$version}"></script>',
-            appRoot: 'www/'
+            fileTmpl: '<script src="\%s"></script>',
+            appRoot: '/'
         }))
         // Link the CSS
         .pipe(linker({
             scripts: ccsFilesList,
             startTag: '<!--STYLES-->',
             endTag: '<!--STYLES END-->',
-            fileTmpl: '<link rel="stylesheet" type="text/css" href="/\%s?v={$version}"/>',
-            appRoot: 'www/'
+            fileTmpl: '<link rel="stylesheet" type="text/css" href="\%s"/>',
+            appRoot: '/'
         }))
-        // Write modified files to www/
-        .pipe(gulp.dest('protected/views/'));
+        // Write modified files to /
+        .pipe(gulp.dest('/'))
+        .pipe(debug({title: 'unicorn:'}));
 }
 gulp.task('createTplForDevelopment', function () {
     return createTplForDevelopment();
 });
 
-// Генерируем ссылки на js/css Файлы
-function createTplForProduction() {
-    // Read templates
-    return gulp.src('develop/main.tpl')
-        // Link the JavaScript
-        .pipe(linker({
-            scripts: ['public/js/app.min.js', 'public/js/templates.js'],
-            startTag: '<!--SCRIPTS-->',
-            endTag: '<!--SCRIPTS END-->',
-            fileTmpl: '<script src="/\%s?v={$version}"></script>',
-            appRoot: 'www/'
-        }))
-        // Link the CSS
-        .pipe(linker({
-            scripts: ['public/css/app.min.css'],
-            startTag: '<!--STYLES-->',
-            endTag: '<!--STYLES END-->',
-            fileTmpl: '<link rel="stylesheet" type="text/css" href="/\%s?v={$version}"/>',
-            appRoot: 'www/'
-        }))
-        // Write modified files to www/
-        .pipe(gulp.dest('protected/views/'));
-}
-gulp.task('createTplForProduction', function () {
-    return createTplForProduction();
-});
-
-//Генерация кэша шаблонов
-function generateTemplateCache() {
-    //console.log('Creating an AngularJS $templateCache');
-    var transformUrl = function (url) {
-        return url.replace(/\.html$/, ".html?v=\" + io.version + \"");
-    };
-    return gulp.src(['public/**/*.html', '!public/bower_components/**/*.html'])
-        .pipe(angularTemplateCache('templates.js', {
-            module: 'app.productionCache',
-            root: '/public/',
-            transformUrl: transformUrl
-        }))
-        .pipe(gulp.dest('public/js'));
-
-}
-
-gulp.task('generateTemplateCache', function () {
-    return generateTemplateCache();
-});
-gulp.task('dev', function () {
+gulp.task('dev', ['cssToMin', 'jsToMin'], function () {
     return merge(
         createTplForDevelopment()
     );
-});
-gulp.task('prod', ['cssToMin', 'generateTemplateCache', 'jsToMin'], function () {
+});*/
+
+// Р—Р°РґР°С‡Р° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+gulp.task('default', ['cssToMin', 'jsToMin'], function () {
     return merge(
-        createTplForProduction()
+        cssToMin(),
+        jsToMin()
     );
 });

@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="container">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">{{ tweet.name }}</h4>
+                    <h6 class="card-subtitle text-muted">This is a little joke</h6>
+                </div>
+                <img class="col-md-6" data-ng-if="tweet.img" src="{{ tweet.img }}" alt="Card image">
+                <div class="card-block">
+                    <p class="card-text">{{ tweet.text }}</p>
+                    <p><a href="{{ tweet.url }}" class="card-link">{{ tweet.url }}</a></p>
+                    <p><a href="{{ tweet.video }}" class="card-link">Video</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
