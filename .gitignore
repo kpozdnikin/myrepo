@@ -11,4 +11,7 @@ node_modules/*
 bower_components/*
 css/app.min.css
 js/app.min.js
+/css/app.css.map
+/css/_customVariables.scss
+/css/app.scss
 vendor/*

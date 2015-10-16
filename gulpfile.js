@@ -1,9 +1,8 @@
 var minifyCss = require('gulp-minify-css'), // Минификация CSS;
     uglify = require('gulp-uglify'), // Минификация JS
     concat = require('gulp-concat'), // Склейка файлов
-    linker = require('gulp-linker'), // Создание ссылок на файлы
+    sass = require('gulp-ruby-sass'),
     merge = require('merge-stream'),
-    rename = require('gulp-rename'),
     cssRebaseUrls = require('gulp-css-rebase-urls'),
     gulp = require('gulp'),
     debug = require('gulp-debug');
@@ -24,6 +23,10 @@ var scriptsFilesList = [
 ];
 var ccsFilesList = [
     'bower_components/bootstrap/dist/css/bootstrap.min.css'
+];
+
+var sassFileList = [
+    'bower_components/bootstrap-sass/assets/stylesheets'
 ];
 // Собираем JS
 function jsToMin() {
@@ -49,6 +52,22 @@ function cssToMin() {
 }
 gulp.task('cssToMin', function () {
     return cssToMin();
+});
+
+// Собираем SASS
+function sassToMin() {
+    return gulp.src(sassFileList)
+        .pipe(sass({
+            style: 'compressed',
+            loadPath: [
+                sassFileList
+            ]
+        }))
+        .pipe(gulp.dest('./css'))
+        .pipe(debug({title: 'unicorn:'}));
+}
+gulp.task('sassToMin', function () {
+    return sassToMin();
 });
 
 // Генерируем ссылки на js/css Файлы
